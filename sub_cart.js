@@ -21,4 +21,38 @@
       the customer.
 
 */
+window.addEventListener("load", setupCart);
 
+function setupCart() {
+      var addButtons = document.getElementsByClassName("addButton");
+      // this function lets the buttons be clicked on when making a selecion due to the ordering 
+      for (var i = 0; i < addButtons.length; i++) {
+            addButtons[i].onclick = addItem;
+      }
+
+}
+
+function addItem(e) {
+      var foodItem = e.target.nextElementSibling;
+
+      var foodID = foodItem.getAttribute("id");
+
+      var foodDescription = foodItem.cloneNode(true);
+      var cartBox = document.getElementById("cart");
+      var duplicateOrder = false;
+      //this lets the customer see  previous items in the cart 
+      for (var n = cartBox.firstChild; n !== null; n = n.nextElementSibling) {
+            if (n.id === foodID) {
+                  duplicateOrder = true;
+                  n.firstElementChild.textContent++;
+                  break;
+            }
+      }
+
+      if (duplicateOrder === false) {
+            var orderCount = document.createElement("span");
+            orderCount.textContent = "1";
+            foodDescription.insertBefore(orderCount, foodDescription.firstChild);
+            cartBox.appendChild(foodDescription);
+      }
+}
